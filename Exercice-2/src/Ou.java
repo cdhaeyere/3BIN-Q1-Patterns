@@ -1,16 +1,14 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Ou implements Strategy {
 
     private List<Strategy> strategies;
 
-    public Ou() {
-        strategies = new ArrayList<>();
-    }
-
-    public void add(Strategy strategy) {
-        strategies.add(strategy);
+    public Ou(Strategy... strategies) {
+        this.strategies = new ArrayList<>();
+        Collections.addAll(this.strategies, strategies);
     }
 
     @Override

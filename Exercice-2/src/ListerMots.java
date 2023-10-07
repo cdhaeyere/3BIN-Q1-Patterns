@@ -10,7 +10,9 @@ public class ListerMots {
             System.out.println("Usage : java ListerMots1 fichier");
             System.exit(1);
         }
-        imprimerSi(new And(new PalindromeStrategy(), new CommenceParStrategy("t")), args[0]);
+        Counter counter = new Counter(new And(new PalindromeStrategy(), new CommenceParStrategy("t")));
+        imprimerSi(counter, args[0]);
+        System.out.println("Nombre de mots : " + counter.getCount());
     }
 
     public static void imprimerSi(Strategy strategy, String file) throws IOException {
