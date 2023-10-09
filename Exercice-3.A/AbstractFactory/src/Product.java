@@ -1,10 +1,28 @@
-public interface Product {
+public abstract class Product {
 
-    String getName();
+    private String name;
+    private int anneeDeParution;
+    private double prix;
 
-    int getAnneeDeParution();
+    public Product(String name, int anneeDeParution, double prix) {
+        this.name = name;
+        this.anneeDeParution = anneeDeParution;
+        this.prix = prix;
+    }
 
-    double getPrix();
+    public String getName() {
+        return name;
+    }
 
-    void setPrix(int prix);
+    public int getAnneeDeParution() {
+        return anneeDeParution;
+    }
+
+    public double getPrix() {
+        return prix;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
 }
