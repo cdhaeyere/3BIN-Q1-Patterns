@@ -7,13 +7,3 @@ public class App {
     captain.fire();
   }
 }
-
-Pattern : Decorator
-- Captain implements BattleShip et attribut BattleShip
-
-Pattern : Strategy
-- DistanceKM implements Distance
-- DistanceMiles implements Distance
-
-Pattern : Adapter
-- BattleFishingBoat implements BattleShip et attribut FishingBoat
