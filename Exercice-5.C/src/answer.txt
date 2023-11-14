@@ -13,3 +13,11 @@ Composite :
 - Composite => Groupe
 - operation(): void demande(Traitement traitement)
 
+Builder :
+- Builder => Fabricant
+- Director => Lecteur
+- ConcreteBuilder => Fabriquant
+- Product => Partie
+- construct() : void construire()
+- getResult() : Partie getResultat()
+- buildPart() : void construireGroupe(), void construireValeur()
