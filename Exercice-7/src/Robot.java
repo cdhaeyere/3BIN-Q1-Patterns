@@ -1,77 +1,16 @@
-public class Robot implements IRobot {
-    private int ptVie;
-    private final int canon;
-    private final int shield;
-    private final int freq;
-    private String name;
+public interface Robot extends Cloneable {
+	
+	int getCanon(); // retourne la puissance du canon
 
-    private Robot(RobotBuilder robot) {
-        this.shield = robot.puissanceBouclier;
-        this.freq = robot.frequenceTir;
-        this.ptVie = robot.ptVie;
-        this.canon = robot.puissanceCanon;
-        this.name = robot.name;
-    }
+	int getShield(); // retourne la puissance du bouclier
 
-    @Override
-    public int getCanon() {
-        return canon;
-    }
+	int getFreq(); // retourne la fréquence de tir
+	
+	String getName(); // retourne le nom du robot
 
-    @Override
-    public int getShield() {
-        return shield;
-    }
-
-    @Override
-    public int getFreq() {
-        return freq;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int diffLife(int i) {
-        this.ptVie += i;
-        return ptVie;
-    }
-
-    public static class RobotBuilder {
-        private int ptVie = 100;
-        private int puissanceCanon = 1;
-        private int puissanceBouclier = 1;
-        private int frequenceTir = 100;
-        private String name;
-
-        public RobotBuilder(String name) {
-            this.name = name;
-        }
-
-        public RobotBuilder puissanceBouclier(int puissanceBouclier) {
-            this.puissanceBouclier = puissanceBouclier;
-            return this;
-        }
-
-        public RobotBuilder frequenceTir(int frequenceTir) {
-            this.frequenceTir = frequenceTir;
-            return this;
-        }
-
-        public RobotBuilder ptVie(int ptVie) {
-            this.ptVie = ptVie;
-            return this;
-        }
-
-        public RobotBuilder puissanceCanon(int puissanceCanon) {
-            this.puissanceCanon = puissanceCanon;
-            return this;
-        }
-
-        public Robot build() {
-            return new Robot(this);
-        }
-    }
+	int diffLife(int i); // change les points de vie du robot et retourne la nouvelle valeur de ces points de vie. 
+	 // Si le paramètre est négatif, le robot perd de la vie.
+	 // Si le paramètre est positif, le robot est soigné.
+	 // Si le paramètre est zéro, la méthode agit comme un getter sur les points de vie.
+	Robot clone() throws CloneNotSupportedException;
 }

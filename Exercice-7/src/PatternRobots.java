@@ -1,6 +1,6 @@
 public class PatternRobots {
 	
-	public static void fight(IRobot robot1, IRobot robot2) {
+	public static void fight(Robot robot1, Robot robot2) {
 		int tick1=robot1.getFreq();
 		int tick2=robot2.getFreq();
 		while(robot2.diffLife(0)>0 && robot1.diffLife(0)>0) {
@@ -16,7 +16,7 @@ public class PatternRobots {
 		}
 	}
 	
-	private static int shoot(IRobot robot1, IRobot robot2) {
+	private static int shoot(Robot robot1, Robot robot2) {
 		int dmg=Math.max(0,robot1.getCanon()-robot2.getShield());
 		int lost=robot2.diffLife(0)-robot2.diffLife(-dmg);
 		System.out.println(robot1.getName()+" shoots for "+lost);
@@ -26,37 +26,61 @@ public class PatternRobots {
 		return robot1.getFreq();
 	}
 	
-	public static void main(String[] args) {
-		Robot robot1 = new Robot.RobotBuilder("Robot1")
-				.puissanceCanon(10)
-				.puissanceBouclier(2)
-				.frequenceTir(100)
-				.build();
-		// un robot avec un canon de 10, un bouclier de 2, une frÃ©quence de tir de 100 et
-		// qui a reÃ§u une amÃ©lioration de canon multipliant la puissance de ce dernier par 2.
+	public static void main(String[] args) throws CloneNotSupportedException {
+		/* un robot avec un canon de 10, un bouclier de 2, une fréquence de tir de 100
+			et qui a reçu une amélioration de canon multipliant la puissance de ce dernier par 2.
+		*/
+		Robot robot1 = new RobotImpl.RobotBuilder().setCanon(10).setShield(2).setFreq(100).setName("Robot1").buildRobot();
+		/* un robot avec un canon de 9, un bouclier de 3, une fréquence de tir de 90
+			et qui a reçu une amélioration de bouclier multipliant ce dernier par 2
+			et une amélioration de mitigation des dégats qui réduit les points de vue perdus par 2.
+		*/
+		Robot robot2 = new RobotImpl.RobotBuilder().setCanon(9).setShield(3).setFreq(90).setName("Robot2").buildRobot();
 
-		Robot robot2 = new Robot.RobotBuilder("Robot2")
-				.puissanceCanon(9)
-				.puissanceBouclier(3)
-				.frequenceTir(90)
-				.build();
+		Robot robot3 = new RobotDecorator(new RobotImpl.RobotBuilder().setCanon(9).setShield(3).setFreq(90).setName("Robot3").buildRobot());
+		((RobotDecorator)robot3).setBonusCanon(2);
+		((RobotDecorator)robot3).setBonusShield(2);
+		((RobotDecorator)robot3).setBonusFreq(2);
 
-		// un robot avec un canon de 9, un bouclier de 3, une frÃ©quence de tir de 90
-		// et qui a reÃ§u une amÃ©lioration de bouclier multipliant ce dernier par 2 et
-		// une amÃ©lioration de mitigation des dÃ©gats qui rÃ©duit les points de vue perdus par 2.
+		//fight(robot1, robot3);
 
-		fight(robot1, robot2);
-		System.out.println("---------------------------------");
+		/*
+		PicVert picVert = new PicVert();
+		GrosseBerta grosseBerta = new GrosseBerta();
+		Tank tank = new Tank();
 
-		Flyweight f = new Flyweight();
-		f.ajouterFlyweight("Picvert", new PicVertFactory());
-		f.ajouterFlyweight("GrosseBerta", new GrosseBertaFactory());
-		f.ajouterFlyweight("Tank", new TankFactory());
+		FlyweightRobot_factory flyweightRobotFactory = new FlyweightRobot_factory();
+		flyweightRobotFactory.addRobot("pic-vert", picVert);
+		flyweightRobotFactory.addRobot("grosse-berta", grosseBerta);
+		flyweightRobotFactory.addRobot("tank", tank);
 
-		robot1 = f.creerRobot("Picvert");
-		robot2 = f.creerRobot("Tank");
+		Robot robot4 = flyweightRobotFactory.createRobot("pic-vert");
+		Robot robot5 = flyweightRobotFactory.createRobot("grosse-berta");
+		Robot robot6 = flyweightRobotFactory.createRobot("tank");
+		Robot robot7 = flyweightRobotFactory.createRobot("pic-vert");
 
-		fight(robot1, robot2);
-		System.out.println("---------------------------------");
+		fight(robot4, robot5);
+		System.out.println("--------------------------------------------------");
+		fight(robot6, robot7);
+		*/
+
+		FlyweightRobot_prototype flyweightRobotPrototype = new FlyweightRobot_prototype();
+
+		Robot picVert = new PicVert().createRobot();
+		Robot grosseBerta = new GrosseBerta().createRobot();
+		Robot tank = new Tank().createRobot();
+
+		flyweightRobotPrototype.addRobot("pic-vert", picVert);
+		flyweightRobotPrototype.addRobot("grosse-berta", grosseBerta);
+		flyweightRobotPrototype.addRobot("tank", tank);
+
+		Robot robot4 = flyweightRobotPrototype.createRobot("pic-vert");
+		Robot robot5 = flyweightRobotPrototype.createRobot("grosse-berta");
+		Robot robot6 = flyweightRobotPrototype.createRobot("tank");
+		Robot robot7 = flyweightRobotPrototype.createRobot("pic-vert");
+
+		fight(robot4, robot5);
+		System.out.println("--------------------------------------------------");
+		fight(robot6, robot7);
 	}
 }
